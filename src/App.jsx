@@ -1,23 +1,36 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import AuthLayout from "./layout/AuthLayout"
+import RutaProtegida from "./layout/RutaProtegida"
+
 import Login from "./paginas/Login"
 import OlivedePassword from "./paginas/OlivedePassword"
 import Registrar from "./paginas/Registrar"
 import ConfirmarCuenta from "./paginas/ConfirmarCuenta"
+import NuevoPassword from "./paginas/NuevoPassword"
+import AdministrarPacientes from "./paginas/AdministrarPacientes"
+
+import { AuthProvider } from "./context/AuthProvider"
 
 function App() {
 
   return (
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<AuthLayout />}>
-                <Route index element={<Login />} />
-                <Route path="registrar" element={<Registrar />} />
-                <Route path="olvide-password" element={<OlivedePassword />} />
-                <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
-            </Route>
-        </Routes>
-    </BrowserRouter>
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+                <Route path="/" element={<AuthLayout />}>
+                    <Route index element={<Login />} />
+                    <Route path="registrar" element={<Registrar />} />
+                    <Route path="olvide-password" element={<OlivedePassword />} />
+                    <Route path="olvide-password/:token" element={<NuevoPassword />} />
+                    <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
+                </Route>
+
+                <Route path="/admin" element={<RutaProtegida />}>
+                    <Route index element={<AdministrarPacientes />} />
+                </Route>
+            </Routes>
+          </AuthProvider>  
+        </BrowserRouter>
   )
 }
 
